@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @description:
  * @author: Ding
@@ -32,7 +34,7 @@ public class CaptchaServiceImpl implements CaptchaService {
     @Override
     public String getCaptcha(String sessionId) {
         String captcha = captchaCreator.randomString();
-        redisTemplate.opsForValue().set(String.format("captcha:%s", sessionId), captcha, captchaProperties.getTimeout());
+        redisTemplate.opsForValue().set(String.format("captcha:%s", sessionId), captcha, captchaProperties.getTimeout(), TimeUnit.SECONDS);
         log.info("验证码获取成功，为：" + captcha);
         return captcha;
     }
