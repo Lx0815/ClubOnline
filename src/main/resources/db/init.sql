@@ -1,5 +1,6 @@
-DROP DATABASE IF EXISTS club_manager_server;
-CREATE DATABASE club_manager_server;
+DROP DATABASE IF EXISTS club_online_db;
+CREATE DATABASE club_online_db;
+USE club_online_db;
 
 /*====================================
   权限相关，以 per（permissions 的缩写） 为前缀，
@@ -13,17 +14,6 @@ CREATE DATABASE club_manager_server;
     - per_menu_role_mid
 
     ======================================*/
-
-CREATE TABLE per_user
-(
-    `id`                 INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键 id，无意义',
-    `avatar`             VARCHAR(511) NOT NULL DEFAULT 'https://www.awind.space/blog_images/202302102319803.png' COMMENT '用户头像',
-    `nick_name`          VARCHAR(15)  NOT NULL COMMENT '用户昵称',
-    `personal_signature` VARCHAR(127)          DEFAULT '' COMMENT '个性签名',
-    `create_date_time`   DATETIME     NOT NULL COMMENT '创建时间',
-    `update_date_time`   DATETIME     NOT NULL COMMENT '修改时间',
-    `is_deleted`         TINYINT      NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
-) COMMENT '简单用户表，不包含重要信息。可供其他用户查看';
 
 CREATE TABLE per_user_detail
 (
@@ -50,38 +40,51 @@ CREATE TABLE per_user_detail
     `is_deleted`             TINYINT  NOT NULL   DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
 ) COMMENT '用户详情表，包含用户详细的个人信息。需加以保护';
 
-CREATE TABLE per_login_user
+CREATE TABLE per_user
 (
-    `id`               INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键 id，无意义',
-    `phone_num`        VARCHAR(15) NOT NULL COMMENT '手机号',
-    `password`         CHAR(60)    NOT NULL COMMENT '密码，使用 bcrypt 算法进行加密，默认情况下长度为 60',
-    `email`            VARCHAR(31) UNIQUE COMMENT '邮箱，也可以使用邮箱进行登录',
-    `create_date_time` DATETIME    NOT NULL COMMENT '创建时间',
-    `update_date_time` DATETIME    NOT NULL COMMENT '修改时间',
-    `is_deleted`       TINYINT     NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
-) COMMENT '用户登录信息表';
+    `id`                 INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键 id，无意义',
+    `user_detail_id`     INT UNIQUE COMMENT 'per_user_detail.id',
+    `email`              VARCHAR(31) UNIQUE COMMENT '邮箱，也可以使用邮箱进行登录',
+    `password`           CHAR(60)     NOT NULL COMMENT '密码，使用 bcrypt 算法进行加密，默认情况下长度为 60',
+    `avatar`             VARCHAR(511) NOT NULL DEFAULT 'https://www.awind.space/blog_images/202302102319803.png' COMMENT '用户头像',
+    `nick_name`          VARCHAR(15)  NOT NULL COMMENT '用户昵称',
+    `personal_signature` VARCHAR(127)          DEFAULT '' COMMENT '个性签名',
+    `create_date_time`   DATETIME     NOT NULL COMMENT '创建时间',
+    `update_date_time`   DATETIME     NOT NULL COMMENT '修改时间',
+    `is_deleted`         TINYINT      NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
+) COMMENT '用户表';
 
-CREATE TABLE per_ud__lu__u_mid
-(
-    `id`               INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键 id，无意义',
-    `u_id`             INT      NOT NULL UNIQUE COMMENT 'user.id',
-    `lu_id`            INT      NOT NULL UNIQUE COMMENT 'login_user.id',
-    `ud_id`            INT      NOT NULL UNIQUE COMMENT 'user_detail.id',
-    `create_date_time` DATETIME NOT NULL COMMENT '创建时间',
-    `update_date_time` DATETIME NOT NULL COMMENT '修改时间',
-    `is_deleted`       TINYINT  NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
-) COMMENT '用户表、用户详情表、用户登录信息表的中间表，用以关联三张表';
 
 CREATE TABLE per_major
 (
     `id`               INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键 id，无意义',
-    `code`             VARCHAR(15) NOT NULL COMMENT '专业代码',
     `name`             VARCHAR(31) NOT NULL COMMENT '名称',
-    `category`         VARCHAR(31) NOT NULL COMMENT '专业类别',
     `create_date_time` DATETIME    NOT NULL COMMENT '创建时间',
     `update_date_time` DATETIME    NOT NULL COMMENT '修改时间',
     `is_deleted`       TINYINT     NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
 ) COMMENT '专业表';
+
+
+CREATE TABLE per_school
+(
+    `id`               INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键 id，无意义',
+    `name`             VARCHAR(31) NOT NULL COMMENT '名称',
+    `create_date_time` DATETIME    NOT NULL COMMENT '创建时间',
+    `update_date_time` DATETIME    NOT NULL COMMENT '修改时间',
+    `is_deleted`       TINYINT     NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
+) COMMENT '学校表';
+
+
+CREATE TABLE per_school__major_mid
+(
+    `id`               INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键 id，无意义',
+    `school_id`        VARCHAR(31) NOT NULL COMMENT 'per_school.id',
+    `major_id`         VARCHAR(31) NOT NULL COMMENT 'per_major.id',
+    `create_date_time` DATETIME    NOT NULL COMMENT '创建时间',
+    `update_date_time` DATETIME    NOT NULL COMMENT '修改时间',
+    `is_deleted`       TINYINT     NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
+) COMMENT '';
+
 
 CREATE TABLE per_role
 (
@@ -154,27 +157,6 @@ CREATE TABLE cl_per_user__cl_club__per_role_mid
     `is_deleted`       TINYINT  NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
 ) COMMENT '社团、用户、角色三表的关联表';
 
-CREATE TABLE cl_club_image
-(
-    `id`               INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键 id，无意义',
-    `club_id`          INT          NOT NULL COMMENT 'cl_club.id',
-    `url`              VARCHAR(511) NOT NULL COMMENT '图片 url',
-    `description`      VARCHAR(31)           DEFAULT '' COMMENT '描述',
-    `create_date_time` DATETIME     NOT NULL COMMENT '创建时间',
-    `update_date_time` DATETIME     NOT NULL COMMENT '修改时间',
-    `is_deleted`       TINYINT      NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
-) COMMENT '社团图片表';
-
-CREATE TABLE cl_club_activity_image
-(
-    `id`               INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键 id，无意义',
-    `club_id`          INT          NOT NULL COMMENT 'cl_club.id',
-    `url`              VARCHAR(511) NOT NULL COMMENT '图片 url',
-    `description`      VARCHAR(31)           DEFAULT '' COMMENT '描述',
-    `create_date_time` DATETIME     NOT NULL COMMENT '创建时间',
-    `update_date_time` DATETIME     NOT NULL COMMENT '修改时间',
-    `is_deleted`       TINYINT      NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
-) COMMENT '社团活动图片表';
 
 CREATE TABLE cl_club_activity
 (
@@ -200,13 +182,16 @@ CREATE TABLE cl_club_activity
 CREATE TABLE cl_club_post
 (
     `id`               INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键 id，无意义',
-    `club_id`          INT           NOT NULL COMMENT '社团 id',
-    `content`          VARCHAR(1023) NOT NULL COMMENT '帖子内容',
-    `good_num`         INT                    DEFAULT 0 COMMENT '点赞数',
-    `bad_num`          INT                    DEFAULT 0 COMMENT '点踩数',
-    `create_date_time` DATETIME      NOT NULL COMMENT '创建时间',
-    `update_date_time` DATETIME      NOT NULL COMMENT '修改时间',
-    `is_deleted`       TINYINT       NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
+    `post_id`          INT          NOT NULL COMMENT '动态编号，用于放在 url 中定位资源',
+    `club_id`          INT          NOT NULL COMMENT '社团 id',
+    `user_id`          INT          NOT NULL COMMENT '发布者的用户，id',
+    `content`          TEXT         NOT NULL COMMENT '帖子内容',
+    `good_num`         INT                   DEFAULT 0 COMMENT '点赞数',
+    `bad_num`          INT                   DEFAULT 0 COMMENT '点踩数',
+    `link`             VARCHAR(511) NOT NULL COMMENT '访问链接',
+    `create_date_time` DATETIME     NOT NULL COMMENT '创建时间',
+    `update_date_time` DATETIME     NOT NULL COMMENT '修改时间',
+    `is_deleted`       TINYINT      NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
 ) COMMENT '社团动态帖子表';
 
 
@@ -234,6 +219,34 @@ CREATE TABLE cl_club_activity_status
     `is_deleted`       TINYINT     NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
 ) COMMENT '社团活动状态表';
 
+
+CREATE TABLE cl_club_activity_remark
+(
+    `id`               INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键 id，无意义',
+    `club_post_id`     INT      NOT NULL COMMENT 'cl_club.id',
+    `parent_id`        INT COMMENT 'cl_club_activity_remark.id',
+    `user_id`          INT      NOT NULL COMMENT 'per_user.id',
+    `content`          TEXT     NOT NULL COMMENT '评论内容',
+    `good_num`         INT               DEFAULT 0 COMMENT '点赞数',
+    `bad_num`          INT               DEFAULT 0 COMMENT '点踩数',
+    `create_date_time` DATETIME NOT NULL COMMENT '创建时间',
+    `update_date_time` DATETIME NOT NULL COMMENT '修改时间',
+    `is_deleted`       TINYINT  NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
+) COMMENT '社团活动评论表';
+
+
+CREATE TABLE cl_club_bill
+(
+    `id`               INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键 id，无意义',
+    `type`             TINYINT       NOT NULL COMMENT '账单类型，1 为 入账，0 为 出账',
+    `amount`           DECIMAL(7, 2) NOT NULL COMMENT '金额',
+    `balance`          DECIMAL(7, 2) NOT NULL COMMENT '余额',
+    `description`      VARCHAR(511)           DEFAULT '' COMMENT '描述',
+    `create_date_time` DATETIME      NOT NULL COMMENT '创建时间',
+    `update_date_time` DATETIME      NOT NULL COMMENT '修改时间',
+    `is_deleted`       TINYINT       NOT NULL DEFAULT 0 COMMENT '是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除'
+) COMMENT '社团账单';
+
 /*====================================
   小游戏相关，没有前缀，
   包含：
@@ -250,7 +263,7 @@ CREATE TABLE mini_game
     `requirement`      VARCHAR(511) NOT NULL COMMENT '要求',
     `introduce`        VARCHAR(511) NOT NULL COMMENT '介绍',
     `r_p_mechanism`    VARCHAR(511) NOT NULL COMMENT '奖惩机制',
-    `liveness`         INT                   DEFAULT 100 COMMENT '活跃度',
+    `live_ness`        INT                   DEFAULT 100 COMMENT '活跃度',
     `score`            INT                   DEFAULT 50 COMMENT '评分',
     `create_date_time` DATETIME     NOT NULL COMMENT '创建时间',
     `update_date_time` DATETIME     NOT NULL COMMENT '修改时间',
