@@ -1,7 +1,7 @@
 package com.sgqn.clubonline.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.sgqn.clubonline.mapper.UserMapper;
+import com.sgqn.clubonline.dao.mapper.UserMapper;
 import com.sgqn.clubonline.pojo.User;
 import com.sgqn.clubonline.service.UserService;
 import org.springframework.stereotype.Service;

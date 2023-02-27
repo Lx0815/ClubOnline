@@ -7,6 +7,7 @@ import com.sgqn.clubonline.service.EmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 /**
  * @description:
@@ -24,7 +26,7 @@ import javax.validation.constraints.Email;
  * @modify:
  */
 
-@Valid
+@Validated
 @RestController
 @RequestMapping("/permission")
 public class PermissionController {
@@ -41,6 +43,12 @@ public class PermissionController {
         String captcha = captchaService.getCaptcha(request.getSession().getId());
         emailService.sendCaptcha(email, captcha);
         return ResponseUtil.success();
+    }
+
+    @GetMapping("/email/captcha/check")
+    public Object checkCaptcha(@RequestParam @NotBlank String captcha, HttpServletRequest request) {
+        Boolean flag = captchaService.check(request.getSession().getId(), captcha);
+        return ResponseUtil.success(flag);
     }
 
 }

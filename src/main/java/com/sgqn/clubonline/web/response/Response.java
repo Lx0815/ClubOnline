@@ -28,10 +28,6 @@ public class Response<T> {
         this(code, data, Constants.EMPTY_STRING);
     }
 
-    public Response(ResponseCode code, String message) {
-        this(code, null, message);
-    }
-
     public Response(ResponseCode code, T data, String message) {
         this.code = code;
         this.data = data;

@@ -20,6 +20,10 @@ public class ResponseUtil {
         return new Response<>(OK);
     }
 
+    public static  <T> Response<T> success(T data) {
+        return new Response<>(OK, data);
+    }
+
     public static  <T> Response<T> fail() {
         return new Response<>(FAIL);
     }

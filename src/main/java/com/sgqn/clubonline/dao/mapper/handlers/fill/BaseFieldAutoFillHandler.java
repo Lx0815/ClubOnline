@@ -1,4 +1,4 @@
-package com.sgqn.clubonline.mapper.handlers.fill;
+package com.sgqn.clubonline.dao.mapper.handlers.fill;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;

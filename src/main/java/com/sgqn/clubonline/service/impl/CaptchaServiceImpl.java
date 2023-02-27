@@ -1,14 +1,13 @@
 package com.sgqn.clubonline.service.impl;
 
 import com.sgqn.clubonline.common.captcha.CaptchaCreator;
-import com.sgqn.clubonline.common.captcha.CaptchaProperties;
+import com.sgqn.clubonline.dao.redisdao.CaptchaDao;
+import com.sgqn.clubonline.dao.redisdao.impl.CaptchaDaoImpl;
 import com.sgqn.clubonline.service.CaptchaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @description:
@@ -23,20 +22,25 @@ import java.util.concurrent.TimeUnit;
 public class CaptchaServiceImpl implements CaptchaService {
 
     @Autowired
-    private RedisTemplate<String, String> redisTemplate;
-
-    @Autowired
     private CaptchaCreator captchaCreator;
 
     @Autowired
-    private CaptchaProperties captchaProperties;
+    private CaptchaDao captchaDao;
+
+
 
     @Override
     public String getCaptcha(String sessionId) {
         String captcha = captchaCreator.randomString();
-        redisTemplate.opsForValue().set(String.format("captcha:%s", sessionId), captcha, captchaProperties.getTimeout(), TimeUnit.SECONDS);
+        captchaDao.saveCaptcha(captcha, sessionId);
         log.info("验证码获取成功，为：" + captcha);
         return captcha;
+    }
+
+    @Override
+    public Boolean check(String sessionId, String captcha) {
+        String redisCaptcha = captchaDao.getCaptcha(sessionId);
+        return captcha.equals(redisCaptcha);
     }
 
 }
