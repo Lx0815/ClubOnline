@@ -13,11 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @SpringBootApplication
-@MapperScan("com.sgqn.clubonline.mapper")
+@MapperScan("com.sgqn.clubonline.dao")
 public class ClubOnlineApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ClubOnlineApplication.class);
     }
-
 }

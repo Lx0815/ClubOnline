@@ -1,7 +1,7 @@
 package com.sgqn.clubonline.dao.redisdao.impl;
 
 import com.sgqn.clubonline.common.captcha.CaptchaProperties;
-import com.sgqn.clubonline.dao.redisdao.CaptchaDao;
+import com.sgqn.clubonline.dao.CaptchaDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;

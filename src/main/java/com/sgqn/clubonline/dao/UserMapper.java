@@ -1,4 +1,4 @@
-package com.sgqn.clubonline.dao.mapper;
+package com.sgqn.clubonline.dao;
 
 import com.sgqn.clubonline.pojo.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
