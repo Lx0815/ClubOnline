@@ -44,7 +44,7 @@ CREATE TABLE per_user
 (
     `id`                 INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键 id，无意义',
     `user_detail_id`     INT UNIQUE COMMENT 'per_user_detail.id',
-    `email`              VARCHAR(31) UNIQUE COMMENT '邮箱，也可以使用邮箱进行登录',
+    `email`              VARCHAR(31) NOT NULL UNIQUE COMMENT '邮箱，也可以使用邮箱进行登录',
     `password`           CHAR(60)     NOT NULL COMMENT '密码，使用 bcrypt 算法进行加密，默认情况下长度为 60',
     `avatar`             VARCHAR(511) NOT NULL DEFAULT 'https://www.awind.space/blog_images/202302102319803.png' COMMENT '用户头像',
     `nick_name`          VARCHAR(15)  NOT NULL COMMENT '用户昵称',

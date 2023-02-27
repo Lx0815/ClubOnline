@@ -1,7 +1,7 @@
 package com.sgqn.clubonline.service.impl;
 
 import com.sgqn.clubonline.common.captcha.CaptchaCreator;
-import com.sgqn.clubonline.dao.CaptchaDao;
+import com.sgqn.clubonline.dao.redisdao.CaptchaDao;
 import com.sgqn.clubonline.service.CaptchaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

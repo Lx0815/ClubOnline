@@ -10,4 +10,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface UserService extends IService<User> {
 
+    /**
+     * 保存一个新的 User 并返回该对象
+     * @param user 新的用户对象
+     * @return 返回新增后的用户对象
+     */
+    User saveAndReturn(User user);
 }

@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.Email;
 
 /**
  * 用户表
@@ -12,6 +15,7 @@ import lombok.Data;
  */
 @TableName(value ="per_user")
 @Data
+@Validated
 public class User implements Serializable {
     /**
      * 自增主键 id，无意义
@@ -113,22 +117,20 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", userDetailId=").append(userDetailId);
-        sb.append(", email=").append(email);
-        sb.append(", password=").append(password);
-        sb.append(", avatar=").append(avatar);
-        sb.append(", nickName=").append(nickName);
-        sb.append(", personalSignature=").append(personalSignature);
-        sb.append(", createDateTime=").append(createDateTime);
-        sb.append(", updateDateTime=").append(updateDateTime);
-        sb.append(", isDeleted=").append(isDeleted);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return getClass().getSimpleName() +
+                " [" +
+                "Hash = " + hashCode() +
+                ", id=" + id +
+                ", userDetailId=" + userDetailId +
+                ", email=" + email +
+                ", password=" + password +
+                ", avatar=" + avatar +
+                ", nickName=" + nickName +
+                ", personalSignature=" + personalSignature +
+                ", createDateTime=" + createDateTime +
+                ", updateDateTime=" + updateDateTime +
+                ", isDeleted=" + isDeleted +
+                ", serialVersionUID=" + serialVersionUID +
+                "]";
     }
 }

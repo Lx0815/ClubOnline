@@ -1,4 +1,4 @@
-package com.sgqn.clubonline.dao;
+package com.sgqn.clubonline.dao.redisdao;
 
 /**
  * @description:
