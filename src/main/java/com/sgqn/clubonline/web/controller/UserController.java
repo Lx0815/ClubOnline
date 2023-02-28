@@ -5,8 +5,6 @@ import com.sgqn.clubonline.pojo.User;
 import com.sgqn.clubonline.service.UserService;
 import com.sgqn.clubonline.web.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,5 +37,6 @@ public class UserController {
             throw new NotFoundException("插入 User 成功后读取失败。User: " + user);
         return ResponseUtil.success(returnUser);
     }
+
 
 }

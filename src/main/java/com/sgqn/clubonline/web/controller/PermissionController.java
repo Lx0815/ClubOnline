@@ -1,6 +1,5 @@
 package com.sgqn.clubonline.web.controller;
 
-import cloud.agileframework.kaptcha.kaptcha.KaptchaContextHolder;
 import com.sgqn.clubonline.common.utils.ResponseUtil;
 import com.sgqn.clubonline.service.CaptchaService;
 import com.sgqn.clubonline.service.EmailService;

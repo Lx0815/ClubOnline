@@ -2,6 +2,7 @@ package com.sgqn.clubonline.service;
 
 import com.sgqn.clubonline.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.sgqn.clubonline.web.response.Response;
 
 /**
 * @author Ding
@@ -16,4 +17,7 @@ public interface UserService extends IService<User> {
      * @return 返回新增后的用户对象
      */
     User saveAndReturn(User user);
+
+
+    User selectByEmail(String email);
 }

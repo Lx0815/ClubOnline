@@ -13,7 +13,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum ResponseCode {
 
     OK("20000", "成功"),
+    CERTIFICATION_SUCCEEDED("20001","认证成功"),
 
+    CERTIFICATION_FAIL("25000","认证失败"),
     FAIL("50000", "失败");
 
     private final String code;

@@ -4,7 +4,11 @@ import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
+
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Email;
@@ -16,7 +20,8 @@ import javax.validation.constraints.Email;
 @TableName(value ="per_user")
 @Data
 @Validated
-public class User implements Serializable {
+public class User implements Serializable, UserDetails
+{
     /**
      * 自增主键 id，无意义
      */
@@ -132,5 +137,35 @@ public class User implements Serializable {
                 ", isDeleted=" + isDeleted +
                 ", serialVersionUID=" + serialVersionUID +
                 "]";
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

@@ -33,7 +33,7 @@ spring:
     host: 43.142.113.254
     port: 6379
     password: wxzxgsybD_P258852
-    database: 1
+    database: 0
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

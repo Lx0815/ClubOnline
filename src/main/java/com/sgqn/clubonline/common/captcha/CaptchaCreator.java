@@ -1,7 +1,7 @@
 package com.sgqn.clubonline.common.captcha;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.sgqn.clubonline.common.Constants;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
