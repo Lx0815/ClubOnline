@@ -36,15 +36,12 @@ public class SecurityConfig {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
     /**
      * 权限认证对象[AuthenticationManager]注册到容器里面，其他类可以取到
      *
      * @return
      */
     @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
@@ -83,9 +80,6 @@ public class SecurityConfig {
         // 添加过滤器
         http.addFilterAt(new TokenLoginFilter(tokenManger, redisTemplate, authenticationManager) {{
             setFilterProcessesUrl("/club/login");
-        }}, UsernamePasswordAuthenticationFilter.class);
-        http.addFilterAt(new TokenLoginFilter(tokenManger, redisTemplate, authenticationManager,userDetailsService) {{
-            setFilterProcessesUrl("/manager/login");
         }}, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

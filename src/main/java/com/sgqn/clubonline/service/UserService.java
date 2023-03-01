@@ -19,5 +19,14 @@ public interface UserService extends IService<User> {
     User saveAndReturn(User user);
 
 
+    /**
+     * 根据邮箱查找对应的用户
+     * @param email
+     * @return
+     */
     User selectByEmail(String email);
+
+
+
+
 }

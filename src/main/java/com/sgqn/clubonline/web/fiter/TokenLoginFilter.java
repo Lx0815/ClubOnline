@@ -34,23 +34,11 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private AuthenticationManager authenticationManager;
 
-    private UserDetailsService userDetailsService;
 
     public TokenLoginFilter(TokenManger tokenManger, RedisTemplate<String, String> redisTemplate, AuthenticationManager authenticationManager) {
         this.tokenManger = tokenManger;
         this.redisTemplate = redisTemplate;
         this.authenticationManager = authenticationManager;
-        // 只运行post请求,经过这个filter
-        this.setPostOnly(true);
-        // 登录的路径和请求方式
-        this.setRequiresAuthenticationRequestMatcher(
-                new AntPathRequestMatcher("/login", "POST"));
-    }
-    public TokenLoginFilter(TokenManger tokenManger, RedisTemplate<String, String> redisTemplate, AuthenticationManager authenticationManager,UserDetailsService userDetailsService) {
-        this.tokenManger = tokenManger;
-        this.redisTemplate = redisTemplate;
-        this.authenticationManager = authenticationManager;
-        this.userDetailsService = userDetailsService;
         // 只运行post请求,经过这个filter
         this.setPostOnly(true);
         // 登录的路径和请求方式
@@ -100,11 +88,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         String token = tokenManger.createToken(userId);
         // 存入到redis  username : 权限
         redisTemplate.opsForHash().put("USER:token", userId.toString(), token);
-        String requestURI = request.getRequestURI();
-        log.info("正在请求访问 "+ request.getRequestURL());
-        if (requestURI.equals("/manager/login")){
-            //TODO 调用UserDetail方法获取权限信息
-        }
+
         // 返回token,在响应体中写入
         ResponseUtil.out(response, new Response<>(ResponseCode.CERTIFICATION_SUCCEEDED,
                 new HashMap<String, String>() {{

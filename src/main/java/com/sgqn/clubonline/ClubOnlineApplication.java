@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("com.sgqn.clubonline.dao.mapper")
 public class ClubOnlineApplication {
 
+
     public static void main(String[] args) {
         SpringApplication.run(ClubOnlineApplication.class);
     }
