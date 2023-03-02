@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgqn.clubonline.dao.mapper.MenuMapper">
+
+    <resultMap id="BaseResultMap" type="com.sgqn.clubonline.pojo.Menu">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="path" column="path" jdbcType="VARCHAR"/>
+        <result property="component" column="component" jdbcType="VARCHAR"/>
+        <result property="perms" column="perms" jdbcType="VARCHAR"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="createDateTime" column="create_date_time" jdbcType="TIMESTAMP"/>
+        <result property="updateDateTime" column="update_date_time" jdbcType="TIMESTAMP"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,parent_id,name,
+        type,code,path,
+        component,perms,icon,
+        description,create_date_time,update_date_time,
+        is_deleted
+    </sql>
+
+    <select id="selectByMenuId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM per_menu WHERE id = #{id}
+    </select>
+
+
+    <select id="selectMenuListByRoleId" resultType="com.sgqn.clubonline.pojo.Menu">
+        select p_m.id,
+               p_m.is_deleted,
+               p_m.id,
+               p_m.parent_id,
+               p_m.name,
+               p_m.type,
+               p_m.code,
+               p_m.path,
+               p_m.component,
+               p_m.perms,
+               p_m.icon,
+               p_m.description,
+               p_m.create_date_time,
+               p_m.update_date_time,
+               p_m.is_deleted
+        from per_menu__role_mid p_m_r_m
+                 join per_menu p_m
+                      on p_m_r_m.menu_id = p_m.id
+        where p_m_r_m.role_id = #{roleId};
+    </select>
+</mapper>

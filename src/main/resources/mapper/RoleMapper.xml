@@ -5,18 +5,44 @@
 <mapper namespace="com.sgqn.clubonline.dao.mapper.RoleMapper">
 
     <resultMap id="BaseResultMap" type="com.sgqn.clubonline.pojo.Role">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="code" column="code" jdbcType="CHAR"/>
-            <result property="description" column="description" jdbcType="VARCHAR"/>
-            <result property="createDateTime" column="create_date_time" jdbcType="TIMESTAMP"/>
-            <result property="updateDateTime" column="update_date_time" jdbcType="TIMESTAMP"/>
-            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="CHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="createDateTime" column="create_date_time" jdbcType="TIMESTAMP"/>
+        <result property="updateDateTime" column="update_date_time" jdbcType="TIMESTAMP"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
     </resultMap>
+
 
     <sql id="Base_Column_List">
         id,name,code,
         description,create_date_time,update_date_time,
         is_deleted
     </sql>
+
+
+    <select id="selectRolePermissionByRoleId" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        select pr.id,
+               pr.name,
+               pr.code,
+               pr.description,
+               pr.create_date_time,
+               pr.update_date_time,
+               pr.is_deleted,
+               p_r_m.menu_id
+        from per_role pr
+                 join per_menu__role_mid p_r_m
+                      on pr.id = p_r_m.role_id
+        where pr.id = #{roleId};
+    </select>
+
+
+    <select id="selectAllRoleId" resultType="java.lang.Integer">
+        select id
+        from per_menu;
+    </select>
+
+
 </mapper>

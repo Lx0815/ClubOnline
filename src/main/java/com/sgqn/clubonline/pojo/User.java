@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.switchuser.SwitchUserGrantedAuthority;
 import org.springframework.validation.annotation.Validated;
 
 import java.io.Serializable;
@@ -86,14 +87,14 @@ public class User implements Serializable, UserDetails {
         // 创建存放权限的列表
         List<GrantedAuthority> authorities = new ArrayList<>();
         // 遍历 角色权限列表
-        for (Permission permission:permissionList){
+       /* for (Permission permission:permissionList){
             // 如果角色权限列表中的元素不为空，将其添加到集合中
             if (!permission.getPermissions().isEmpty()) {
                 permission.getPermissions().forEach(singlePer ->{
-                    authorities.add(new SimpleGrantedAuthority(singlePer));
+                    authorities.add(new SwitchUserGrantedAuthority(singlePer));
                 });
             }
-        }
+        }*/
         return authorities;
     }
 

@@ -28,7 +28,7 @@ spring:
             port: 465
           starttls:
             enable: true
-            required: true
+            required: true;'//.,
   redis:
     host: 43.142.113.254
     port: 6379
@@ -37,6 +37,9 @@ spring:
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/**/*Mapper.xml
+  type-aliases-package: com.sgqn.clubonline.pojo
 agile:
   kaptcha:
     enable: true

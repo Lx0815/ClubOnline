@@ -20,17 +20,17 @@ public class Permission {
     /**
      * 所属社团
      */
-    private String fromClub;
+    private Integer fromClubID;
 
     /**
      * 所属社团的所具有的角色
      */
-    private String roleName;
+    private Integer roleID;
 
 
     /**
      * 该角色所具有的权限
      */
-    private List<String> permissions;
+    private List<Menu> permissions;
 
 }
