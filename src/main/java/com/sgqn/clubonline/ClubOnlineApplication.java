@@ -3,6 +3,9 @@ package com.sgqn.clubonline;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 /**
  * @description:
@@ -14,10 +17,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan("com.sgqn.clubonline.dao.mapper")
+@EnableScheduling
 public class ClubOnlineApplication {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(ClubOnlineApplication.class);
+        ConfigurableApplicationContext run = SpringApplication.run(ClubOnlineApplication.class);
+
     }
 }

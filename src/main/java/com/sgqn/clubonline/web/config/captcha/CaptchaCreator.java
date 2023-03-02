@@ -1,4 +1,4 @@
-package com.sgqn.clubonline.common.captcha;
+package com.sgqn.clubonline.web.config.captcha;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.sgqn.clubonline.common.Constants;

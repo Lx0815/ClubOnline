@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgqn.clubonline.dao.mapper.UserClubRoleMidMapper">
+
+    <resultMap id="BaseResultMap" type="com.sgqn.clubonline.pojo.UserClubRoleMid">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="clubId" column="club_id" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+            <result property="createDateTime" column="create_date_time" jdbcType="TIMESTAMP"/>
+            <result property="updateDateTime" column="update_date_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,club_id,user_id,
+        role_id,create_date_time,update_date_time,
+        is_deleted
+    </sql>
+
+</mapper>

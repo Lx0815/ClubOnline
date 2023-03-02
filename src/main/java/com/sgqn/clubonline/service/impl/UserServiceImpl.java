@@ -2,8 +2,11 @@ package com.sgqn.clubonline.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sgqn.clubonline.dao.mapper.RoleMapper;
 import com.sgqn.clubonline.dao.mapper.UserMapper;
+import com.sgqn.clubonline.dao.mapper.UserClubRoleMidMapper;
 import com.sgqn.clubonline.pojo.User;
+import com.sgqn.clubonline.pojo.UserClubRoleMid;
 import com.sgqn.clubonline.service.UserService;
 import com.sgqn.clubonline.web.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +31,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private UserClubRoleMidMapper userClubRoleMidMapper;
+
+    private static final String ORDINARY_USER = "ORDINARY_USER";
+
     @Override
     public User saveAndReturn(User user) {
         int row = userMapper.insert(user);
         Assert.isTrue(row == 1, "添加失败。本次添加参数：" + user);
+        // 获取普通用户的角色
+        Integer roleId = roleMapper.selectIdByCode(ORDINARY_USER);
+        // 添加用户信息到 cl_per_user__cl_club__per_role_mid 表
+        row = userClubRoleMidMapper.insertByUserIdAndRoleId(user.getId(), roleId);
+        Assert.isTrue(row == 1, String.format("添加失败。本次添加参数：userId: %s, roleId: %s", user.getId(), roleId));
         return userMapper.selectById(user.getId());
     }
 

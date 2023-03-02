@@ -1,4 +1,4 @@
-package com.sgqn.clubonline.web.fiter;
+package com.sgqn.clubonline.web.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sgqn.clubonline.common.utils.ResponseUtil;

@@ -1,11 +1,11 @@
 package com.sgqn.clubonline.web.controller;
 
+import com.sgqn.accesslimit.annotation.AccessLimit;
 import com.sgqn.clubonline.common.utils.ResponseUtil;
 import com.sgqn.clubonline.service.CaptchaService;
 import com.sgqn.clubonline.service.EmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -37,6 +36,7 @@ public class PermissionController {
     private CaptchaService captchaService;
 
 
+    @AccessLimit
     @GetMapping("/email/captcha")
     public Object captcha(@RequestParam @Email String email, HttpServletRequest request) {
         String captcha = captchaService.getCaptcha(request.getSession().getId());

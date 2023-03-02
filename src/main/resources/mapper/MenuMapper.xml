@@ -36,7 +36,7 @@
 
 
     <select id="selectMenuListByRoleId" resultType="com.sgqn.clubonline.pojo.Menu">
-        select p_m.id,
+        SELECT p_m.id,
                p_m.is_deleted,
                p_m.id,
                p_m.parent_id,
@@ -51,9 +51,9 @@
                p_m.create_date_time,
                p_m.update_date_time,
                p_m.is_deleted
-        from per_menu__role_mid p_m_r_m
-                 join per_menu p_m
-                      on p_m_r_m.menu_id = p_m.id
-        where p_m_r_m.role_id = #{roleId};
+        FROM per_menu__role_mid p_m_r_m
+                 JOIN per_menu p_m
+                      ON p_m_r_m.menu_id = p_m.id
+        WHERE p_m_r_m.role_id = #{roleId};
     </select>
 </mapper>

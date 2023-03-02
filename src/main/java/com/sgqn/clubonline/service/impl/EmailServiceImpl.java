@@ -1,6 +1,6 @@
 package com.sgqn.clubonline.service.impl;
 
-import com.sgqn.clubonline.common.captcha.CaptchaProperties;
+import com.sgqn.clubonline.web.config.captcha.CaptchaProperties;
 import com.sgqn.clubonline.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

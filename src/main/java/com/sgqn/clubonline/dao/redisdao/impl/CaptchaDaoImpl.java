@@ -1,10 +1,10 @@
 package com.sgqn.clubonline.dao.redisdao.impl;
 
-import com.sgqn.clubonline.common.captcha.CaptchaProperties;
+import com.sgqn.clubonline.web.config.captcha.CaptchaProperties;
 import com.sgqn.clubonline.dao.redisdao.CaptchaDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @modify:
  */
 
-@Component
+@Repository
 public class CaptchaDaoImpl implements CaptchaDao {
 
     @Autowired

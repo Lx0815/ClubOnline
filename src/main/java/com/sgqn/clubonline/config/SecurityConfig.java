@@ -1,6 +1,6 @@
 package com.sgqn.clubonline.config;
 
-import com.sgqn.clubonline.web.fiter.TokenLoginFilter;
+import com.sgqn.clubonline.web.filter.TokenLoginFilter;
 import com.sgqn.clubonline.web.security.TokenManger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -69,7 +69,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
         http.authorizeRequests()
                 // user目录下全部可以访问
-                .antMatchers("/user/*").permitAll()
+//                .antMatchers("/user/*").permitAll()
+                //TODO
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated();
         //不通过Session获取SecurityContext
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

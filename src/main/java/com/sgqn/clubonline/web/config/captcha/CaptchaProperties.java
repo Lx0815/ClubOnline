@@ -1,4 +1,4 @@
-package com.sgqn.clubonline.common.captcha;
+package com.sgqn.clubonline.web.config.captcha;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

@@ -24,7 +24,7 @@
 
     <select id="selectRolePermissionByRoleId" resultMap="BaseResultMap"
             parameterType="java.lang.Integer">
-        select pr.id,
+        SELECT pr.id,
                pr.name,
                pr.code,
                pr.description,
@@ -32,16 +32,22 @@
                pr.update_date_time,
                pr.is_deleted,
                p_r_m.menu_id
-        from per_role pr
-                 join per_menu__role_mid p_r_m
-                      on pr.id = p_r_m.role_id
-        where pr.id = #{roleId};
+        FROM per_role pr
+                 JOIN per_menu__role_mid p_r_m
+                      ON pr.id = p_r_m.role_id
+        WHERE pr.id = #{roleId}
+            AND pr.is_deleted = 0;
     </select>
 
-
     <select id="selectAllRoleId" resultType="java.lang.Integer">
-        select id
-        from per_menu;
+        SELECT id
+        FROM per_menu;
+    </select>
+
+    <select id="selectIdByCode" resultType="java.lang.Integer">
+        SELECT id
+        FROM per_role
+        WHERE `name` = #{code}
     </select>
 
 

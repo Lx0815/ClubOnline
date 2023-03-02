@@ -1,9 +1,7 @@
 package com.sgqn.clubonline.pojo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.Data;
@@ -69,16 +67,19 @@ public class Menu implements Serializable {
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createDateTime;
 
     /**
      * 修改时间
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateDateTime;
 
     /**
      * 是否已删除。用于逻辑删除，默认值为 0 表示未删除，1 表示已删除
      */
+    @TableLogic
     private Integer isDeleted;
 
     @TableField(exist = false)

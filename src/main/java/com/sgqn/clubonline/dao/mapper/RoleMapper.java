@@ -24,7 +24,7 @@ public interface RoleMapper extends BaseMapper<Role> {
     Role selectRolePermissionByRoleId(@Param("roleId") Integer roleId);
 
 
-
+    Integer selectIdByCode(@Param("code") String code);
 }
 
 

@@ -75,6 +75,7 @@ public class User implements Serializable, UserDetails {
     /**
      * 存放授予的权限
      */
+    @TableField(exist = false)
     private List<Permission> permissionList;
 
 
