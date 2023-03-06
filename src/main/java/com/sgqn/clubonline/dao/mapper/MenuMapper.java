@@ -31,3 +31,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
      */
     List<Menu> selectMenuListByRoleId(@Param("roleId") Integer roleId);
 }
+
+
+
+
