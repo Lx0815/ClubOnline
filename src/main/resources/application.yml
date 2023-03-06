@@ -40,11 +40,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapper/**/*Mapper.xml
   type-aliases-package: com.sgqn.clubonline.pojo
-agile:
-  kaptcha:
-    enable: true
-    live-time: 120s
-    token-header: v-code
-    url: /permission/captcha
-
+access-limit:
+  enable: true
+  redis-base-path: clubonline
 

@@ -29,25 +29,6 @@ import javax.validation.constraints.NotBlank;
 @RequestMapping("/permission")
 public class PermissionController {
 
-    @Autowired
-    private EmailService emailService;
 
-    @Autowired
-    private CaptchaService captchaService;
-
-
-    @AccessLimit
-    @GetMapping("/email/captcha")
-    public Object captcha(@RequestParam @Email String email, HttpServletRequest request) {
-        String captcha = captchaService.getCaptcha(request.getSession().getId());
-        emailService.sendCaptcha(email, captcha);
-        return ResponseUtil.success();
-    }
-
-    @GetMapping("/email/captcha/check")
-    public Object checkCaptcha(@RequestParam @NotBlank String captcha, HttpServletRequest request) {
-        Boolean flag = captchaService.check(request.getSession().getId(), captcha);
-        return ResponseUtil.success(flag);
-    }
 
 }
