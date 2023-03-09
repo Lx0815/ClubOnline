@@ -4,6 +4,7 @@ import com.sgqn.accesslimit.annotation.AccessLimit;
 import com.sgqn.clubonline.common.utils.ResponseUtil;
 import com.sgqn.clubonline.service.CaptchaService;
 import com.sgqn.clubonline.service.EmailService;
+import com.sgqn.clubonline.web.response.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+
+import static com.sgqn.clubonline.web.response.ResponseCode.*;
 
 /**
  * @description:
@@ -37,13 +40,14 @@ public class CaptchaController {
     public Object captcha(@PathVariable @Email String email, HttpServletRequest request) {
         String captcha = captchaService.getCaptcha(request.getSession().getId());
         emailService.sendCaptcha(email, captcha);
-        return ResponseUtil.success();
+        return ResponseUtil.createByCode(RESOURCE_CREATE_SUCCESS);
     }
 
     @GetMapping("/captcha/check/{captcha}")
     public Object checkCaptcha(@PathVariable @NotBlank String captcha, HttpServletRequest request) {
         Boolean flag = captchaService.check(request.getSession().getId(), captcha);
-        return ResponseUtil.success(flag);
+        if (flag) return ResponseUtil.createByCode(RESOURCE_EXIST);
+        return ResponseUtil.createByCode(RESOURCE_NOT_EXIST);
     }
 
 }

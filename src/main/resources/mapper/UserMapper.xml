@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgqn.clubonline.dao.mapper.UserMapper">
+
+
+    <select id="selectCountByEmail" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT COUNT(email)
+        FROM per_user
+        WHERE email = #{email}
+    </select>
+</mapper>

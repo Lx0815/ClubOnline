@@ -5,17 +5,21 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sgqn.clubonline.dao.mapper.RoleMapper;
 import com.sgqn.clubonline.dao.mapper.UserMapper;
 import com.sgqn.clubonline.dao.mapper.UserClubRoleMidMapper;
+import com.sgqn.clubonline.dao.redisdao.EmailCacheDao;
 import com.sgqn.clubonline.pojo.User;
-import com.sgqn.clubonline.pojo.UserClubRoleMid;
 import com.sgqn.clubonline.service.UserService;
 import com.sgqn.clubonline.web.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Objects;
 
@@ -27,6 +31,10 @@ import java.util.Objects;
 @Service
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService, UserDetailsService {
+    /**
+     * TODO 改成 enum 枚举常量
+     */
+    private static final String ORDINARY_USER = "ORDINARY_USER";
 
     @Autowired
     private UserMapper userMapper;
@@ -37,7 +45,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private UserClubRoleMidMapper userClubRoleMidMapper;
 
-    private static final String ORDINARY_USER = "ORDINARY_USER";
+    @Autowired
+    private EmailCacheDao emailCacheDao;
 
     @Override
     public User saveAndReturn(User user) {
@@ -48,6 +57,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 添加用户信息到 cl_per_user__cl_club__per_role_mid 表
         row = userClubRoleMidMapper.insertByUserIdAndRoleId(user.getId(), roleId);
         Assert.isTrue(row == 1, String.format("添加失败。本次添加参数：userId: %s, roleId: %s", user.getId(), roleId));
+        // 删除 email 缓存
+        emailCacheDao.remove(user.getEmail());
         return userMapper.selectById(user.getId());
     }
 
@@ -72,6 +83,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         //TODO 根据用户名进行查询权限
         return user;
+    }
+
+    @Override
+    public Boolean checkEmailExisted(String newEmail, String oldEmail) {
+        emailCacheDao.remove(oldEmail);
+        // 先从缓存查询
+        boolean exist = emailCacheDao.putIfAbsent(newEmail);
+        if (exist) return Boolean.TRUE;
+        int count = userMapper.selectCountByEmail(newEmail);
+        if (count > 0) {
+            return Boolean.TRUE;
+        }
+        // 该邮箱可用
+        return Boolean.FALSE;
     }
 }
 

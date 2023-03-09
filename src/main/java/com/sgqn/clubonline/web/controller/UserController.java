@@ -6,13 +6,13 @@ import com.sgqn.clubonline.service.UserService;
 import com.sgqn.clubonline.web.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
+
+import static com.sgqn.clubonline.web.response.ResponseCode.*;
 
 /**
  * @description:
@@ -35,8 +35,13 @@ public class UserController {
         User returnUser = userService.saveAndReturn(user);
         if (Objects.isNull(returnUser))
             throw new NotFoundException("插入 User 成功后读取失败。User: " + user);
-        return ResponseUtil.success(returnUser);
+        return ResponseUtil.createByCodeAndData(RESOURCE_CREATE_SUCCESS, returnUser);
     }
 
-
+    @GetMapping("/email/check/{newEmail}")
+    public Object checkEmail(@PathVariable @Email String newEmail, String oldEmail) {
+        Boolean exist = userService.checkEmailExisted(newEmail, oldEmail);
+        if (exist) return ResponseUtil.createByCode(RESOURCE_EXIST);
+        return ResponseUtil.createByCode(RESOURCE_NOT_EXIST);
+    }
 }

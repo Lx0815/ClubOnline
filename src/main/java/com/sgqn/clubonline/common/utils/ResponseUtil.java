@@ -1,6 +1,7 @@
 package com.sgqn.clubonline.common.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sgqn.clubonline.common.Constants;
 import com.sgqn.clubonline.web.response.Response;
 import com.sgqn.clubonline.web.response.ResponseCode;
 import lombok.extern.slf4j.Slf4j;
@@ -25,16 +26,20 @@ public class ResponseUtil {
 
     private ResponseUtil() {}
 
-    public static  <T> Response<T> success() {
-        return new Response<>(OK);
+    private static <T> Response<T> create(ResponseCode code, T data, String message) {
+        return new Response<>(code, data, message);
     }
 
-    public static  <T> Response<T> success(T data) {
-        return new Response<>(OK, data);
+    public static <T> Response<T> createByCode(ResponseCode code) {
+        return create(code, null, code.getDescription());
     }
 
-    public static  <T> Response<T> fail() {
-        return new Response<>(FAIL);
+    public static <T> Response<T> createByCodeAndData(ResponseCode code, T data) {
+        return create(code, data, Constants.EMPTY_STRING);
+    }
+
+    public static <T> Response<T> createByCodeAndMessage(ResponseCode code, String message) {
+        return create(code, null, message);
     }
 
     public static void out(HttpServletResponse response, Response<Object> responseModel){

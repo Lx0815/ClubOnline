@@ -2,7 +2,6 @@ package com.sgqn.clubonline.service;
 
 import com.sgqn.clubonline.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sgqn.clubonline.web.response.Response;
 
 /**
 * @author Ding
@@ -27,6 +26,12 @@ public interface UserService extends IService<User> {
     User selectByEmail(String email);
 
 
-
-
+    /**
+     * 检查该电子邮件是否已经被占用
+     *
+     * @param newEmail 新的电子邮件
+     * @param oldEmail 旧的电子邮件
+     * @return 返回 ture 表示已经有人使用了本电子邮件
+     */
+    Boolean checkEmailExisted(String newEmail, String oldEmail);
 }
